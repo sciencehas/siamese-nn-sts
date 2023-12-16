@@ -1,3 +1,4 @@
+```python
 from siamese_lstm_attention import SiameseBiLSTMAttention
 from train import train_model
 from tuning import tune_model
@@ -15,7 +16,7 @@ def main():
         "sent2": "sentence_B",
         "label": "relatedness_score",
     }
-    dataset_name = "sick"
+    dataset_name = "Combined_Dataset"  # updated dataset_name to Combined_Dataset
     sick_data = STSData(
         dataset_name=dataset_name,
         columns_mapping=columns_mapping,
@@ -39,9 +40,9 @@ def main():
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     ## self attention config
     self_attention_config = {
-        "hidden_size": 150,  ## refers to variable 'da' in the ICLR paper
-        "output_size": 20,  ## refers to variable 'r' in the ICLR paper
-        "penalty": 0.0,  ## refers to penalty coefficient term in the ICLR paper
+        "hidden_size": 150,
+        "output_size": 20,
+        "penalty": 0.0,
     }
 
     results = tune_model(sick_data, sick_dataloaders)
@@ -64,12 +65,12 @@ def main():
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     ## self attention config
     self_attention_config = {
-        "hidden_size": best_params['da'],  ## refers to variable 'da' in the ICLR paper
-        "output_size": best_params['r'],  ## refers to variable 'r' in the ICLR paper
-        "penalty": best_params['penalty'],  ## refers to penalty coefficient term in the ICLR paper
+        "hidden_size": best_params['da'],
+        "output_size": best_params['r'],
+        "penalty": best_params['penalty'],
     }
 
-        ## init siamese lstm
+    ## init siamese lstm
     siamese_lstm_attention = SiameseBiLSTMAttention(
         batch_size=batch_size,
         output_size=output_size,
@@ -123,3 +124,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+```
+
+The code above reflects a refactoring of the original main function in main.py. Changes include: Replacing "sick" with "Combined_Dataset" in the dataset_name variable so that the updated Combined_Dataset Google Sheets data is leveraged as input data.
